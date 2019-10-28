@@ -59,6 +59,28 @@
 
 <script>
 
+function playSound(e) {
+  console.log(e.keyCode);
+  const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`)
+  const key = document.querySelector(`.key[data-key="${e.keyCode}"]`)
+  console.log(audio);
+  console.log(key);
+  if (!audio) return; // stop function from running
+  audio.currentTime = 0; // rewind to the start so you can key noises in a row without a pause
+  audio.play();
+  key.classList.add('playing');
+}
+
+function removeTransition(e) {
+  if (e.propertyName !== 'transform') return; // skip if it's not a transform
+  this.classList.remove('playing'); // this calls whatever function is attached to, which is "key" below
+}
+
+const keys = document.querySelectorAll('.key');
+keys.forEach(key => key.addEventListener('transitionend', removeTransition));
+
+window.addEventListener('keydown', playSound);
+
 </script>
 
 
