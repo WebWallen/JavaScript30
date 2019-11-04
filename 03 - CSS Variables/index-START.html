@@ -21,6 +21,21 @@
   <img src="https://source.unsplash.com/7bwQXzbF6KE/800x500">
 
   <style>
+    :root {
+      --base: #ffc600;
+      --spacing: 10px;
+      --blur: 10px;
+    }
+
+    img {
+      padding: var(--spacing);
+      background: var(--base);
+      filter: blur(var(--blur));
+    }
+
+    .hl {
+      color: var(--base);
+    }
 
     /*
       misc styles, nothing to do with CSS variables
@@ -42,9 +57,22 @@
     input {
       width: 100px;
     }
-  </style>
+  </style> 
 
   <script>
+    const inputs = document.querySelectorAll('.controls input');
+    // Often would convert above to an array but unnecessary in this case as nodeLists can use the forEach method
+
+    function handleUpdate() {
+      console.log(this.value);
+
+      const suffix = this.dataset.sizing || ''; // Matches "sizing" on the data- tag in HTML
+
+      document.documentElement.style.setProperty(`--${this.name}`, this.value + suffix); // Grabs name from HTML, sets current suffix to value in controls
+    }
+
+    inputs.forEach(input => input.addEventListener('change', handleUpdate));
+    inputs.forEach(input => input.addEventListener('mousemove', handleUpdate));
   </script>
 
 </body>
